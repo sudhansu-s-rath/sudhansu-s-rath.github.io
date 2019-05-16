@@ -17,17 +17,25 @@
       <link id="theme-style" rel="stylesheet" href="css/index.css">
 	
 	<!-- Load an icon library to show a hamburger menu (bars) on small screens -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		.button {
+	  background-color: #E5F1F3
+	  border: none;
+	  color: white;
+	  padding: 8px 38px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 20px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+	}
+	
+	
 
-<div class="topnav" id="myTopnav">
-  <a href="#home" class="active">Home</a>
-  <a href="#news">News</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <i class="fa fa-bars"></i>
-  </a>
-</div>
+	</style>
+
   </head> 	
 	
   <body ng-app="app">
@@ -113,11 +121,20 @@
         </div><!--//sidebar-wrapper-->
         
         <div class="main-wrapper">
+		
+
+		<button class="button"><a href="home" class="active">Home</a></button>
+		<button class="button"><a href="news">News</a></button>
+		<button class="button"><a href="contact">Contact</a></button>
+		<button class="button"><a href="about">About</a></button>
+		
+		
+		
             
             <section class="section summary-section">
-                <h2 class="section-title"><i class="fa fa-user"></i>Career Profile</h2>
+                <h2 class="section-title"><br><br><i class="fa fa-user"></i>Career Profile</h2>
                 <div class="summary">
-                    <p>Currently I am working on &quot;Urban induced land use change impacts on localized weather and climate&quot;.
+                    <p {text-align:justify;}>Currently I am working on &quot;Urban induced land use change impacts on localized weather and climate&quot;.
     					I like to seek challenging roles in the field of &quot;urban meteorology, remote sensing and numerical weather modelling&quot;.
 						I have an aim to train myself to focus on the current challenges faced in making of weather sustainable cities."</p>
                 </div><!--//summary-->
