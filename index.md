@@ -122,10 +122,10 @@
         <div class="main-wrapper">
 		
 		<button class="button"><a href="https://sudhansu-s-rath.github.io/" class="active">Home</a></button>
-		<button class="button"><a href="publications" class="active">Publications</a></button>
-		<button class="button"><a href="conferences">Conferences</a></button>
-		<button class="button"><a href="trainings">Trainings</a></button>
-		<button class="button"><a href="contact">Contact</a></button>
+		<button class="button"><a href="research.html" class="active">Research</a></button>
+		<button class="button"><a href="teaching.html" class="active">Teaching</a></button>
+		<button class="button"><a href="publications.html" class="active">Publications</a></button>
+		<button class="button"><a href="contact.html" class="active">Contact</a></button>
 		
 		
 		
@@ -246,7 +246,7 @@
  
     <footer class="footer">
         <div class="text-center">
-          <small class="copyright">©Sudhansu Sekhar Rath, 2019</small>
+          <small class="copyright">©Sudhansu Sekhar Rath, 2025</small>
         </div>
     </footer><!--//footer-->
  
