@@ -33,7 +33,3 @@ Visit the live website at: [sudhansu-s-rath.github.io](https://sudhansu-s-rath.g
 - **LinkedIn**: [Your LinkedIn profile]
 - **ORCID**: [Your ORCID profile]
 - **Google Scholar**: [Your Google Scholar profile]
-
-## 📄 License
-This project is open source and available under the [MIT License](LICENSE).</content>
-<parameter name="filePath">/data/mgeorge7/sudhansu_WORK/PersonalPage/README.md
