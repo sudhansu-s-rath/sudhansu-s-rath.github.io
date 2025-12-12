@@ -305,7 +305,7 @@
                 second: '2-digit',
                 timeZoneName: 'short'
             };
-            const dateTimeString = now.toLocaleDateString('en-US', options);
+            const dateTimeString = now.toLocaleString('en-US', options);
             document.getElementById('current-date-time').textContent = dateTimeString;
         }
 
