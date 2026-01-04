@@ -19,21 +19,6 @@ Visit the live website at: [sudhansu-s-rath.github.io](https://sudhansu-s-rath.g
 - **Hosting**: GitHub Pages
 - **Version Control**: Git
 
-## 🚀 Local Development
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/sudhansu-s-rath/sudhansu-s-rath.github.io.git
-   cd sudhansu-s-rath.github.io
-   ```
-
-2. Open `index.html` in your browser to view the site locally.
-
-## 📞 Contact
-- **Email**: [Your email here]
-- **LinkedIn**: [Your LinkedIn profile]
-- **ORCID**: [Your ORCID profile]
-- **Google Scholar**: [Your Google Scholar profile]
-
-## 📄 License
+##  License
 This project is open source and available under the [MIT License](LICENSE).</content>
 <parameter name="filePath">/data/mgeorge7/sudhansu_WORK/PersonalPage/README.md
