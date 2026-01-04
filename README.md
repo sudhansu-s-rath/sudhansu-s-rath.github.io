@@ -19,6 +19,21 @@ Visit the live website at: [sudhansu-s-rath.github.io](https://sudhansu-s-rath.g
 - **Hosting**: GitHub Pages
 - **Version Control**: Git
 
-##  License
-This project is open source and available under the [MIT License](LICENSE).</content>
-<parameter name="filePath">/data/mgeorge7/sudhansu_WORK/PersonalPage/README.md
+## 🚀 Local Development
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sudhansu-s-rath/sudhansu-s-rath.github.io.git
+   cd sudhansu-s-rath.github.io
+   ```
+
+2. Open `index.html` in your browser to view the site locally.
+
+## 📞 Contact
+- **Email**: sudhansu@asu.edu
+- **LinkedIn**: https://www.linkedin.com/in/sudhansu-s-rath-ph-d-6839b4203/
+- **GitHub**: https://github.com/sudhansu-s-rath
+- **Google Scholar**: https://scholar.google.com/citations?user=o4jIZJAAAAAJ&hl=en
+- **ResearchGate**: https://www.researchgate.net/profile/Sudhansu-Rath-2
+
+## License
+This project is open source and available under the [MIT License](LICENSE).
