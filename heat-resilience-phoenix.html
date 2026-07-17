@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rooftop Albedo &amp; Heat Resilience — Phoenix–Tempe | Sudhansu S. Rath</title>
+<meta name="description" content="Applying Google Research's Cool Roofs / Heat Resilience dataset to the Phoenix–Tempe metro: a building-level albedo portal for urban heat mitigation research.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1a1611;
+    --bg-panel: #221d16;
+    --bg-panel-2: #2b241a;
+    --text: #ede6d9;
+    --text-muted: #a89c86;
+    --accent-hot: #c4451f;
+    --accent-hot-dim: #7a2c14;
+    --accent-cool: #bfe1e8;
+    --accent-sage: #8ba17c;
+    --rule: rgba(237,230,217,0.14);
+    --rule-strong: rgba(237,230,217,0.28);
+    --radius: 3px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(196,69,31,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(191,225,232,0.05), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Source Serif 4', Georgia, serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-hot); color:#1a1611;}
+
+  a{color:var(--accent-cool);}
+  a:focus-visible, button:focus-visible, iframe:focus-visible{
+    outline:2px solid var(--accent-cool);
+    outline-offset:3px;
+  }
+
+  h1,h2,h3{
+    font-family:'Big Shoulders Display', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    font-weight:800;
+    line-height:0.98;
+    margin:0;
+    color:var(--text);
+  }
+
+  .mono{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--accent-hot);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--accent-hot);
+    display:inline-block;
+  }
+
+  .wrap{
+    max-width:980px;
+    margin:0 auto;
+    padding:0 clamp(20px, 5vw, 40px);
+  }
+
+  /* ---------- top nav / breadcrumb back to site ---------- */
+  .backbar{
+    border-bottom:1px solid var(--rule);
+    padding:18px 0;
+  }
+  .backbar .wrap{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
+  .backbar a{
+    color:var(--text-muted);
+    text-decoration:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+  }
+  .backbar a:hover{color:var(--accent-cool);}
+  .backbar .name{color:var(--text); font-weight:600;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:clamp(48px,9vw,88px) 0 clamp(32px,6vw,56px);}
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 4.6rem);
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--accent-hot);
+  }
+  .hero p.lede{
+    margin:22px 0 0;
+    max-width:56ch;
+    font-size:1.15rem;
+    color:var(--text-muted);
+  }
+  .hero .tags{
+    margin-top:26px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .hero .tags span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    padding:5px 10px;
+    border:1px solid var(--rule-strong);
+    border-radius:var(--radius);
+    color:var(--text-muted);
+  }
+
+  /* ---------- signature: albedo instrument bar ---------- */
+  .instrument{
+    margin-top:44px;
+    padding:24px clamp(18px,3vw,28px) 30px;
+    background:var(--bg-panel);
+    border:1px solid var(--rule);
+    border-radius:6px;
+  }
+  .instrument .instrument-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .instrument-head .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .instrument-head .scale{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-muted);
+  }
+  .albedo-track{
+    position:relative;
+    height:34px;
+    border-radius:3px;
+    background:linear-gradient(90deg,
+      #3a2416 0%,
+      var(--accent-hot) 12%,
+      #6b5a3f 30%,
+      var(--accent-sage) 46%,
+      #7a7263 58%,
+      #9c9788 70%,
+      var(--accent-cool) 100%
+    );
+  }
+  .albedo-track .tick{
+    position:absolute;
+    top:100%;
+    transform:translateX(-50%);
+    text-align:center;
+    padding-top:9px;
+    width:120px;
+  }
+  .albedo-track .tick::before{
+    content:"";
+    position:absolute;
+    top:-9px;
+    left:50%;
+    width:1px;
+    height:7px;
+    background:var(--rule-strong);
+  }
+  .albedo-track .tick .v{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--text);
+    display:block;
+  }
+  .albedo-track .tick .l{
+    font-size:0.72rem;
+    color:var(--text-muted);
+    display:block;
+    margin-top:2px;
+  }
+  .instrument-foot{
+    margin-top:56px;
+    font-size:0.85rem;
+    color:var(--text-muted);
+  }
+
+  /* ---------- sections ---------- */
+  section{padding:clamp(44px,7vw,72px) 0;}
+  section.rule-top{border-top:1px solid var(--rule);}
+  section h2{
+    font-size:clamp(1.7rem, 4vw, 2.3rem);
+    margin-top:14px;
+  }
+  section > .wrap > p.intro{
+    max-width:62ch;
+    color:var(--text-muted);
+    margin:16px 0 0;
+    font-size:1.02rem;
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:clamp(24px,4vw,48px);
+    margin-top:34px;
+  }
+  @media (max-width:760px){ .two-col{grid-template-columns:1fr;} }
+
+  .two-col .body p{color:var(--text); margin:0 0 16px; max-width:60ch;}
+  .two-col .body p:last-child{margin-bottom:0;}
+
+  .factcard{
+    background:var(--bg-panel);
+    border:1px solid var(--rule);
+    border-radius:var(--radius);
+    padding:20px 22px;
+  }
+  .factcard + .factcard{margin-top:14px;}
+  .factcard .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.5rem;
+    color:var(--accent-cool);
+    display:block;
+  }
+  .factcard .lbl{
+    font-size:0.82rem;
+    color:var(--text-muted);
+    display:block;
+    margin-top:4px;
+  }
+
+  /* ---------- map embed ---------- */
+  .mapframe-wrap{
+    margin-top:30px;
+    border:1px solid var(--rule-strong);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--bg-panel);
+  }
+  .mapframe-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:12px 16px;
+    border-bottom:1px solid var(--rule);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--text-muted);
+  }
+  .mapframe-bar .dot{
+    display:inline-block;
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent-hot);
+    margin-right:8px;
+    vertical-align:middle;
+    box-shadow:0 0 0 3px rgba(196,69,31,0.18);
+  }
+  .mapframe-bar a{
+    color:var(--accent-cool);
+    text-decoration:none;
+    border-bottom:1px solid rgba(191,225,232,0.4);
+  }
+  .mapframe-bar a:hover{border-color:var(--accent-cool);}
+  .mapframe{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/10;
+    background:#0f0d0a;
+  }
+  .mapframe iframe{
+    position:absolute; inset:0; width:100%; height:100%; border:0;
+  }
+  .map-note{
+    margin-top:12px;
+    font-size:0.85rem;
+    color:var(--text-muted);
+  }
+
+  /* ---------- workflow ---------- */
+  .steps{
+    margin-top:36px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:20px;
+    padding:24px 0;
+    border-top:1px solid var(--rule);
+  }
+  .step:last-child{border-bottom:1px solid var(--rule);}
+  .step .n{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--accent-hot);
+    padding-top:3px;
+  }
+  .step h3{
+    font-family:'Source Serif 4', serif;
+    text-transform:none;
+    font-weight:600;
+    font-size:1.18rem;
+    letter-spacing:0;
+    color:var(--text);
+  }
+  .step p{
+    margin:8px 0 0;
+    color:var(--text-muted);
+    max-width:60ch;
+  }
+  .step .src{
+    display:inline-block;
+    margin-top:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--accent-sage);
+  }
+
+  /* ---------- code ---------- */
+  .codepanel{
+    margin-top:34px;
+    background:#15120d;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .codepanel .codebar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 16px;
+    border-bottom:1px solid var(--rule);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-muted);
+  }
+  .codepanel pre{
+    margin:0;
+    padding:20px 22px;
+    overflow-x:auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.84rem;
+    line-height:1.65;
+    color:#e4dcc9;
+  }
+  .codepanel .c-com{color:#7d7263;}
+  .codepanel .c-str{color:var(--accent-sage);}
+  .codepanel .c-kw{color:var(--accent-hot);}
+
+  /* ---------- sources / citation ---------- */
+  .sources{
+    margin-top:32px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width:640px){ .sources{grid-template-columns:1fr;} }
+  .source-card{
+    border:1px solid var(--rule);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    background:var(--bg-panel);
+  }
+  .source-card .k{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .source-card .t{
+    margin-top:6px;
+    font-size:0.98rem;
+  }
+  .source-card a{
+    text-decoration:none;
+    color:var(--accent-cool);
+    border-bottom:1px solid rgba(191,225,232,0.35);
+  }
+  .source-card a:hover{border-color:var(--accent-cool);}
+
+  .attribution-note{
+    margin-top:22px;
+    padding:16px 20px;
+    border-left:2px solid var(--accent-hot);
+    background:rgba(196,69,31,0.06);
+    font-size:0.88rem;
+    color:var(--text-muted);
+  }
+  .attribution-note strong{color:var(--text); font-weight:600;}
+
+  footer{
+    border-top:1px solid var(--rule);
+    padding:30px 0 60px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--text-muted);
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  footer a{color:var(--text-muted); text-decoration:none;}
+  footer a:hover{color:var(--accent-cool);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="backbar">
+  <div class="wrap">
+    <a href="https://sudhansu-s-rath.github.io/research.html">&larr; Back to Research</a>
+    <span class="name mono">Sudhansu S. Rath — Data Notes</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Applied dataset note · Urban heat</p>
+    <h1>Every roof in<br>Phoenix has an<br><em>albedo value.</em></h1>
+    <p class="lede">Google Research's Cool Roofs / Heat Resilience release maps building-level rooftop reflectivity for 50+ cities worldwide — including both Phoenix and Tempe. This page walks through the dataset and a proposed workflow for pairing it with a local heat-vulnerability index to prioritize cool-roof retrofits.</p>
+    <div class="tags">
+      <span>Building-level, 30&nbsp;cm resolution</span>
+      <span>Sentinel-2 &times; Pléiades&nbsp;Neo fusion</span>
+      <span>RMSE 0.04 vs. airborne hyperspectral</span>
+      <span>Phoenix + Tempe covered</span>
+    </div>
+
+    <div class="instrument">
+      <div class="instrument-head">
+        <span class="label">Albedo scale — fraction of solar energy reflected</span>
+        <span class="scale">0.0 (absorbs all) &rarr; 1.0 (reflects all)</span>
+      </div>
+      <div class="albedo-track">
+        <div class="tick" style="left:10%"><span class="v">0.05–0.15</span><span class="l">Dark roofs / fresh asphalt</span></div>
+        <div class="tick" style="left:44%"><span class="v">0.15–0.25</span><span class="l">Grass &amp; vegetation</span></div>
+        <div class="tick" style="left:63%"><span class="v">0.20–0.30</span><span class="l">Aged concrete</span></div>
+        <div class="tick" style="left:92%"><span class="v">0.60–0.85</span><span class="l">White "cool" roofs</span></div>
+      </div>
+      <p class="instrument-foot">Typical surface values reported by Google Research. Every building centroid in the dataset carries a value along this scale — the lower it sits, the more a roof is contributing to local warming.</p>
+    </div>
+  </div>
+</header>
+
+<section class="rule-top">
+  <div class="wrap">
+    <p class="eyebrow">About the dataset</p>
+    <h2>Beyond neighborhood averages</h2>
+    <div class="two-col">
+      <div class="body">
+        <p>Free satellite-derived albedo estimates exist at roughly 10&nbsp;m resolution — too coarse to tell one rooftop from the next. Google Research's approach fuses that 10&nbsp;m Sentinel-2 data with 30&nbsp;cm commercial imagery (Airbus Pléiades Neo) using machine learning and radiometric calibration, reconstructing a spectral reflectance profile for every urban pixel and collapsing it to a single albedo value per building centroid.</p>
+        <p>The method was validated against airborne hyperspectral measurements over Boulder, Colorado, reaching an RMSE of 0.04 against ground truth. Released June 2026 alongside a paper in <em>Nature Communications</em>, the expanded dataset now spans 50+ cities across 15 countries — up from a 14-city pilot in 2024 — built with the World Resources Institute.</p>
+        <p>For the Phoenix metro specifically, both <strong>Phoenix</strong> and <strong>Tempe</strong> are included as separate city extracts within the United States download, which is useful given how much the two differ in roofing stock, lot size, and canopy cover.</p>
+      </div>
+      <div class="facts">
+        <div class="factcard"><span class="num">50+</span><span class="lbl">cities, 15 countries, released June 2026</span></div>
+        <div class="factcard"><span class="num">30 cm</span><span class="lbl">effective spatial resolution</span></div>
+        <div class="factcard"><span class="num">0.04</span><span class="lbl">RMSE against airborne hyperspectral ground truth</span></div>
+        <div class="factcard"><span class="num">2</span><span class="lbl">Valley cities covered: Phoenix &amp; Tempe</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rule-top">
+  <div class="wrap">
+    <p class="eyebrow">Live data</p>
+    <h2>Explore the Valley in the Earth Engine app</h2>
+    <p class="intro">The official Heat Resilience Earth Engine App is embedded below. Pan to Phoenix or Tempe, zoom in from tract-level aggregates down to individual building centroids, and click a rooftop to read its albedo value directly.</p>
+
+    <div class="mapframe-wrap">
+      <div class="mapframe-bar">
+        <span><span class="dot"></span>eie-cool-roofs.projects.earthengine.app</span>
+        <a href="https://eie-cool-roofs.projects.earthengine.app/view/heat-resilience-lab" target="_blank" rel="noopener">Open full screen &#8599;</a>
+      </div>
+      <div class="mapframe">
+        <iframe
+          src="https://eie-cool-roofs.projects.earthengine.app/view/heat-resilience-lab"
+          title="Heat Resilience Earth Engine App"
+          loading="lazy"
+          allow="fullscreen"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+    <p class="map-note">If the panel above stays blank, Earth Engine is likely blocking embedded framing on this domain — use the "Open full screen" link instead.</p>
+  </div>
+</section>
+
+<section class="rule-top">
+  <div class="wrap">
+    <p class="eyebrow">Suggested application</p>
+    <h2>From rooftop pixels to a retrofit shortlist</h2>
+    <p class="intro">A quick, defensible use of this dataset for the Phoenix–Tempe region: pair low-albedo rooftops with an independent heat-vulnerability layer so cool-roof outreach targets neighborhoods that are both hot <em>and</em> least able to cope with it.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="n">01</span>
+        <div>
+          <h3>Flag low-albedo rooftops</h3>
+          <p>Filter building centroids within the Phoenix and Tempe extracts to albedo &lt; 0.15 — the dark-roof / fresh-asphalt range Google reports — to get a candidate list of retrofit-worthy buildings.</p>
+          <span class="src">Source: Cool Roofs dataset, US extract</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <div>
+          <h3>Join to a census-tract heat vulnerability index</h3>
+          <p>Spatially join the flagged centroids to Phoenix's published Heat Vulnerability Index — 358 City of Phoenix census tracts scored on AC prevalence, vegetation density, and socioeconomic variables from CAP LTER (Jenerette et al.).</p>
+          <span class="src">Source: CAP LTER dataset knb-lter-cap.665</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <div>
+          <h3>Rank tracts, cross-check against observed heat</h3>
+          <p>Score each tract by (dark-roof density &times; HVI), then sanity-check the top-ranked tracts against a same-summer Landsat or ECOSTRESS land-surface-temperature composite to confirm the dark-roof clusters line up with real hot spots rather than data artifacts.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="n">04</span>
+        <div>
+          <h3>Export a prioritized building list</h3>
+          <p>Output the top-ranked tracts with building IDs as a shortlist — a natural input for a cool-roof outreach pilot, a rebate program, or an environmental-justice framing in a city adaptation plan.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="codepanel">
+      <div class="codebar"><span>geopandas · phoenix_dark_roofs.py</span><span>Python 3</span></div>
+      <pre><span class="c-kw">import</span> geopandas <span class="c-kw">as</span> gpd
+
+<span class="c-com"># 1 — load Phoenix/Tempe rooftop centroids from the US extract</span>
+roofs = gpd.read_file(<span class="c-str">"phoenix_tempe_centroids.geojson"</span>)
+dark_roofs = roofs[roofs[<span class="c-str">"albedo"</span>] &lt; <span class="c-str">0.15</span>]
+
+<span class="c-com"># 2 — load the CAP LTER Heat Vulnerability Index tracts</span>
+hvi_tracts = gpd.read_file(<span class="c-str">"phoenix_hvi_tracts_2016.geojson"</span>)
+joined = gpd.sjoin(dark_roofs, hvi_tracts, predicate=<span class="c-str">"within"</span>)
+
+<span class="c-com"># 3 — rank tracts by dark-roof density weighted by vulnerability</span>
+ranked = (joined.groupby(<span class="c-str">"GEOID"</span>)
+          .agg(n_dark_roofs=(<span class="c-str">"albedo"</span>, <span class="c-str">"size"</span>),
+               mean_albedo=(<span class="c-str">"albedo"</span>, <span class="c-str">"mean"</span>),
+               hvi=(<span class="c-str">"HVI_score"</span>, <span class="c-str">"first"</span>))
+          .assign(priority=<span class="c-kw">lambda</span> d: d.n_dark_roofs * d.hvi)
+          .sort_values(<span class="c-str">"priority"</span>, ascending=<span class="c-kw">False</span>))
+
+ranked.head(20).to_csv(<span class="c-str">"phoenix_retrofit_priority_tracts.csv"</span>)</pre>
+    </div>
+    <p class="map-note">Field names above are illustrative — confirm the actual schema against the downloaded extract and the CAP LTER data package before running.</p>
+  </div>
+</section>
+
+<section class="rule-top">
+  <div class="wrap">
+    <p class="eyebrow">Data &amp; citation</p>
+    <h2>Where this comes from</h2>
+    <div class="sources">
+      <div class="source-card">
+        <span class="k">Dataset</span>
+        <p class="t">Cool Roofs — US extract (incl. Phoenix, Tempe)<br><a href="https://storage.googleapis.com/eie-cool-roofs-public/united_states.zip">Download .zip &#8599;</a></p>
+      </div>
+      <div class="source-card">
+        <span class="k">Interactive</span>
+        <p class="t">Heat Resilience Earth Engine App<br><a href="https://eie-cool-roofs.projects.earthengine.app/view/heat-resilience-lab" target="_blank" rel="noopener">Open the app &#8599;</a></p>
+      </div>
+      <div class="source-card">
+        <span class="k">Methods paper</span>
+        <p class="t">Fork et al., <em>Estimating high-resolution albedo for urban applications</em>, Nature Communications, 2026<br><a href="https://www.nature.com/articles/s41467-026-73436-y" target="_blank" rel="noopener">Read the paper &#8599;</a></p>
+      </div>
+      <div class="source-card">
+        <span class="k">Vulnerability layer</span>
+        <p class="t">Social &amp; Heat Vulnerability Indices, Phoenix AZ, CAP LTER<br><a href="https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-cap&identifier=665" target="_blank" rel="noopener">View data package &#8599;</a></p>
+      </div>
+    </div>
+
+    <div class="attribution-note">
+      <strong>Citation note:</strong> Google's Broad Coverage centroids should be attributed to Google Research. If a workflow instead uses the "Open Outlines" building-footprint version, the dataset's own FAQ lists several additional required attributions (Overture, Esri Community Maps, Microsoft Global ML Building Footprints, Google Open Buildings, USGS 3DEP) — check the source's licensing terms before publishing derived maps.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; width:100%;">
+    <span>Data note compiled July 2026 · Sudhansu S. Rath</span>
+    <a href="https://sudhansu-s-rath.github.io/research.html">&larr; sudhansu-s-rath.github.io/research.html</a>
+  </div>
+</footer>
+
+</body>
+</html>
