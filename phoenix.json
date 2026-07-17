@@ -1,0 +1,209 @@
+{
+  "city": "Phoenix",
+  "generated_utc": "2026-07-17T19:42:42+00:00",
+  "dark_albedo_threshold": 0.15,
+  "unit": "census tract, ranked by dark-roof count x normalized HVI",
+  "n_dark_roofs_total": 38279,
+  "tracts": [
+    {
+      "geoid": "04013111700",
+      "lat": 33.47297,
+      "lon": -112.056377,
+      "n_dark_roofs": 611,
+      "mean_albedo": 0.1263,
+      "hvi": 1.6361,
+      "hvi_norm": 0.6874,
+      "priority": 419.9966
+    },
+    {
+      "geoid": "04013111000",
+      "lat": 33.487543,
+      "lon": -111.986803,
+      "n_dark_roofs": 616,
+      "mean_albedo": 0.125,
+      "hvi": -0.4539,
+      "hvi_norm": 0.4705,
+      "priority": 289.8185
+    },
+    {
+      "geoid": "04013108301",
+      "lat": 33.508982,
+      "lon": -112.00472,
+      "n_dark_roofs": 480,
+      "mean_albedo": 0.1231,
+      "hvi": 0.1807,
+      "hvi_norm": 0.5363,
+      "priority": 257.445
+    },
+    {
+      "geoid": "04013109701",
+      "lat": 33.487556,
+      "lon": -112.207574,
+      "n_dark_roofs": 420,
+      "mean_albedo": 0.1345,
+      "hvi": 0.2564,
+      "hvi_norm": 0.5442,
+      "priority": 228.5623
+    },
+    {
+      "geoid": "04013105300",
+      "lat": 33.560261,
+      "lon": -112.073857,
+      "n_dark_roofs": 297,
+      "mean_albedo": 0.1295,
+      "hvi": 1.6408,
+      "hvi_norm": 0.6879,
+      "priority": 204.3007
+    },
+    {
+      "geoid": "04013110400",
+      "lat": 33.487692,
+      "lon": -112.091564,
+      "n_dark_roofs": 333,
+      "mean_albedo": 0.1298,
+      "hvi": 0.729,
+      "hvi_norm": 0.5933,
+      "priority": 197.5524
+    },
+    {
+      "geoid": "04013112503",
+      "lat": 33.473027,
+      "lon": -112.211991,
+      "n_dark_roofs": 343,
+      "mean_albedo": 0.1303,
+      "hvi": 0.3845,
+      "hvi_norm": 0.5575,
+      "priority": 191.2188
+    },
+    {
+      "geoid": "04013614700",
+      "lat": 33.68643,
+      "lon": -112.084508,
+      "n_dark_roofs": 291,
+      "mean_albedo": 0.1209,
+      "hvi": 1.1962,
+      "hvi_norm": 0.6417,
+      "priority": 186.7457
+    },
+    {
+      "geoid": "04013107000",
+      "lat": 33.531201,
+      "lon": -112.142866,
+      "n_dark_roofs": 256,
+      "mean_albedo": 0.1338,
+      "hvi": 2.0193,
+      "hvi_norm": 0.7272,
+      "priority": 186.1538
+    },
+    {
+      "geoid": "04013107500",
+      "lat": 33.516538,
+      "lon": -112.073726,
+      "n_dark_roofs": 277,
+      "mean_albedo": 0.1269,
+      "hvi": 1.4618,
+      "hvi_norm": 0.6693,
+      "priority": 185.397
+    },
+    {
+      "geoid": "04013106300",
+      "lat": 33.545633,
+      "lon": -112.056289,
+      "n_dark_roofs": 292,
+      "mean_albedo": 0.1242,
+      "hvi": 0.8242,
+      "hvi_norm": 0.6031,
+      "priority": 176.1137
+    },
+    {
+      "geoid": "04013111800",
+      "lat": 33.473033,
+      "lon": -112.073964,
+      "n_dark_roofs": 325,
+      "mean_albedo": 0.13,
+      "hvi": 0.0389,
+      "hvi_norm": 0.5216,
+      "priority": 169.5295
+    },
+    {
+      "geoid": "04013106200",
+      "lat": 33.545564,
+      "lon": -112.073837,
+      "n_dark_roofs": 367,
+      "mean_albedo": 0.1264,
+      "hvi": -0.5899,
+      "hvi_norm": 0.4564,
+      "priority": 167.4869
+    },
+    {
+      "geoid": "04013108200",
+      "lat": 33.500148,
+      "lon": -111.988841,
+      "n_dark_roofs": 332,
+      "mean_albedo": 0.1263,
+      "hvi": -0.2671,
+      "hvi_norm": 0.4899,
+      "priority": 162.6376
+    },
+    {
+      "geoid": "04013112900",
+      "lat": 33.458576,
+      "lon": -112.091328,
+      "n_dark_roofs": 253,
+      "mean_albedo": 0.1317,
+      "hvi": 1.107,
+      "hvi_norm": 0.6325,
+      "priority": 160.0154
+    },
+    {
+      "geoid": "04013103303",
+      "lat": 33.633497,
+      "lon": -112.004769,
+      "n_dark_roofs": 171,
+      "mean_albedo": 0.1214,
+      "hvi": 3.9701,
+      "hvi_norm": 0.9296,
+      "priority": 158.9653
+    },
+    {
+      "geoid": "04013616400",
+      "lat": 33.661858,
+      "lon": -112.124188,
+      "n_dark_roofs": 214,
+      "mean_albedo": 0.1338,
+      "hvi": 2.0293,
+      "hvi_norm": 0.7282,
+      "priority": 155.8344
+    },
+    {
+      "geoid": "04013105800",
+      "lat": 33.545809,
+      "lon": -112.142887,
+      "n_dark_roofs": 224,
+      "mean_albedo": 0.1335,
+      "hvi": 1.5738,
+      "hvi_norm": 0.6809,
+      "priority": 152.5261
+    },
+    {
+      "geoid": "04013116400",
+      "lat": 33.385068,
+      "lon": -112.055933,
+      "n_dark_roofs": 237,
+      "mean_albedo": 0.1244,
+      "hvi": 1.1629,
+      "hvi_norm": 0.6383,
+      "priority": 151.2719
+    },
+    {
+      "geoid": "04013106100",
+      "lat": 33.545743,
+      "lon": -112.091055,
+      "n_dark_roofs": 362,
+      "mean_albedo": 0.1276,
+      "hvi": -1.0761,
+      "hvi_norm": 0.4059,
+      "priority": 146.9368
+    }
+  ]
+}
