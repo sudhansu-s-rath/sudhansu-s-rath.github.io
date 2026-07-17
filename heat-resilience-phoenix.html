@@ -18,8 +18,9 @@
     --text-muted: #a89c86;
     --accent-hot: #c4451f;
     --accent-hot-dim: #7a2c14;
-    --accent-cool: #bfe1e8;
+    --accent-cool: #7dd3fc;
     --accent-sage: #8ba17c;
+    --site-primary: #2563eb;
     --rule: rgba(237,230,217,0.14);
     --rule-strong: rgba(237,230,217,0.28);
     --radius: 3px;
@@ -31,7 +32,7 @@
     margin:0;
     background:
       radial-gradient(ellipse 900px 500px at 15% -10%, rgba(196,69,31,0.10), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(191,225,232,0.05), transparent 55%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(125,211,252,0.05), transparent 55%),
       var(--bg);
     color:var(--text);
     font-family:'Source Serif 4', Georgia, serif;
@@ -96,7 +97,7 @@
     font-size:0.8rem;
     letter-spacing:0.04em;
   }
-  .backbar a:hover{color:var(--accent-cool);}
+  .backbar a:hover{color:var(--site-primary);}
   .backbar .name{color:var(--text); font-weight:600;}
 
   /* ---------- hero ---------- */
@@ -607,7 +608,7 @@
       <div class="results-legend">
         <span><span class="swatch" style="background:#c4451f;"></span>Phoenix tract (size = priority)</span>
         <span><span class="swatch" style="background:transparent; border:1.5px dashed #e8c547;"></span>Flagged (built after 2016, no HVI score)</span>
-        <span><span class="swatch" style="background:#bfe1e8;"></span>Tempe rooftop (darkest first)</span>
+        <span><span class="swatch" style="background:#7dd3fc;"></span>Tempe rooftop (darkest first)</span>
         <span class="updated" id="results-updated"></span>
       </div>
     </div>
@@ -669,7 +670,7 @@
 
     tmp.buildings.forEach(b => {
       L.circleMarker([b.lat, b.lon], {
-        radius: 5, color: '#bfe1e8', weight: 1, fillColor: '#bfe1e8', fillOpacity: 0.7
+        radius: 5, color: '#7dd3fc', weight: 1, fillColor: '#7dd3fc', fillOpacity: 0.7
       }).addTo(map).bindPopup(
         '<span class="pop-title">Tempe rooftop</span>Albedo: ' + b.albedo
       );
