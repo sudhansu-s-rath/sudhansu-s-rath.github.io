@@ -593,84 +593,20 @@
   <div class="wrap">
     <p class="eyebrow">Suggested application</p>
     <h2>From rooftop pixels to a retrofit shortlist</h2>
-    <p class="intro">A quick, defensible use of this dataset for the Phoenix–Tempe region: pair low-albedo rooftops with an independent heat-vulnerability layer so cool-roof outreach targets neighborhoods that are both hot <em>and</em> least able to cope with it.</p>
-
-    <div class="steps">
-      <div class="step">
-        <span class="n">01</span>
-        <div>
-          <h3>Flag low-albedo rooftops</h3>
-          <p>Filter building centroids within the Phoenix and Tempe extracts to albedo &lt; 0.15 — the dark-roof / fresh-asphalt range Google reports — to get a candidate list of retrofit-worthy buildings.</p>
-          <span class="src">Source: Cool Roofs dataset, US extract</span>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">02</span>
-        <div>
-          <h3>Join to a census-tract heat vulnerability index</h3>
-          <p>Spatially join the flagged centroids to Phoenix's published Heat Vulnerability Index — 358 City of Phoenix census tracts scored on AC prevalence, vegetation density, and socioeconomic variables from CAP LTER (Jenerette et al.).</p>
-          <span class="src">Source: CAP LTER dataset knb-lter-cap.665</span>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">03</span>
-        <div>
-          <h3>Rank tracts, cross-check against observed heat</h3>
-          <p>Score each tract by (dark-roof density &times; HVI), then sanity-check the top-ranked tracts against a same-summer Landsat or ECOSTRESS land-surface-temperature composite to confirm the dark-roof clusters line up with real hot spots rather than data artifacts.</p>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">04</span>
-        <div>
-          <h3>Export a prioritized building list</h3>
-          <p>Output the top-ranked tracts with building IDs as a shortlist — a natural input for a cool-roof outreach pilot, a rebate program, or an environmental-justice framing in a city adaptation plan.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="codepanel">
-      <div class="codebar"><span>geopandas · phoenix_dark_roofs.py</span><span>Python 3</span></div>
-      <pre><span class="c-kw">import</span> geopandas <span class="c-kw">as</span> gpd
-
-<span class="c-com"># 1 — load Phoenix/Tempe rooftop centroids from the US extract</span>
-roofs = gpd.read_file(<span class="c-str">"phoenix_tempe_centroids.geojson"</span>)
-dark_roofs = roofs[roofs[<span class="c-str">"albedo"</span>] &lt; <span class="c-str">0.15</span>]
-
-<span class="c-com"># 2 — load the CAP LTER Heat Vulnerability Index tracts</span>
-hvi_tracts = gpd.read_file(<span class="c-str">"phoenix_hvi_tracts_2016.geojson"</span>)
-joined = gpd.sjoin(dark_roofs, hvi_tracts, predicate=<span class="c-str">"within"</span>)
-
-<span class="c-com"># 3 — rank tracts by dark-roof density weighted by vulnerability</span>
-ranked = (joined.groupby(<span class="c-str">"GEOID"</span>)
-          .agg(n_dark_roofs=(<span class="c-str">"albedo"</span>, <span class="c-str">"size"</span>),
-               mean_albedo=(<span class="c-str">"albedo"</span>, <span class="c-str">"mean"</span>),
-               hvi=(<span class="c-str">"HVI_score"</span>, <span class="c-str">"first"</span>))
-          .assign(priority=<span class="c-kw">lambda</span> d: d.n_dark_roofs * d.hvi)
-          .sort_values(<span class="c-str">"priority"</span>, ascending=<span class="c-kw">False</span>))
-
-ranked.head(20).to_csv(<span class="c-str">"phoenix_retrofit_priority_tracts.csv"</span>)</pre>
-    </div>
-    <p class="map-note">Field names above are illustrative — confirm the actual schema against the downloaded extract and the CAP LTER data package before running.</p>
-  </div>
-</section>
-
-<section class="rule-top">
-  <div class="wrap">
-    <p class="eyebrow">Computed results</p>
-    <h2>The retrofit shortlist, run</h2>
-    <p class="intro">The workflow above has been executed against the actual Cool Roofs and CAP LTER extracts. Phoenix's 20 highest-priority census tracts are ranked by dark-roof count &times; normalized Heat Vulnerability Index; Tempe has no HVI layer yet, so its 20 darkest individual rooftops are shown directly instead.</p>
+    <p class="intro">Low-albedo rooftops are joined against Phoenix's CAP LTER Heat Vulnerability Index (358 census tracts, 2016) to rank cool-roof retrofit priority — but that index is a 2016 snapshot, so any building built afterward was never part of its accounting. Each dark roof is first matched to its Maricopa County Assessor parcel and checked against its <code class="mono">year_built</code>: parcels built in or before 2016 feed the tract ranking below; parcels built after 2016 are shown separately as unscored, flagged buildings rather than silently folded into a score that was never computed for them.</p>
 
     <div class="results-stats" id="results-stats">
       <div class="factcard"><span class="num" id="stat-phx-dark">&hellip;</span><span class="lbl">dark roofs (albedo &lt; 0.15) found in Phoenix</span></div>
       <div class="factcard"><span class="num" id="stat-phx-tracts">&hellip;</span><span class="lbl">Phoenix tracts ranked &amp; mapped</span></div>
-      <div class="factcard"><span class="num" id="stat-tmp-dark">&hellip;</span><span class="lbl">dark roofs found in Tempe</span></div>
-      <div class="factcard"><span class="num" id="stat-tmp-buildings">&hellip;</span><span class="lbl">Tempe rooftops ranked &amp; mapped</span></div>
+      <div class="factcard"><span class="num" id="stat-phx-flagged">&hellip;</span><span class="lbl">Phoenix buildings built after 2016 — flagged, unscored</span></div>
+      <div class="factcard"><span class="num" id="stat-tmp-buildings">&hellip;</span><span class="lbl">Tempe rooftops ranked (no HVI layer yet)</span></div>
     </div>
 
     <div class="resultsmap-wrap">
       <div id="results-map"></div>
       <div class="results-legend">
         <span><span class="swatch" style="background:#c4451f;"></span>Phoenix tract (size = priority)</span>
+        <span><span class="swatch" style="background:transparent; border:1.5px dashed #e8c547;"></span>Flagged (built after 2016, no HVI score)</span>
         <span><span class="swatch" style="background:#bfe1e8;"></span>Tempe rooftop (darkest first)</span>
         <span class="updated" id="results-updated"></span>
       </div>
@@ -688,24 +624,26 @@ ranked.head(20).to_csv(<span class="c-str">"phoenix_retrofit_priority_tracts.csv
     if (!phxRes.ok || !tmpRes.ok) throw new Error('JSON fetch failed');
     const phx = await phxRes.json();
     const tmp = await tmpRes.json();
+    const tracts = phx.tracts.records;
+    const flagged = phx.flagged.records;
 
     document.getElementById('stat-phx-dark').textContent = phx.n_dark_roofs_total.toLocaleString();
-    document.getElementById('stat-phx-tracts').textContent = phx.tracts.length;
-    document.getElementById('stat-tmp-dark').textContent = tmp.n_dark_roofs_total.toLocaleString();
+    document.getElementById('stat-phx-tracts').textContent = tracts.length;
+    document.getElementById('stat-phx-flagged').textContent = flagged.length.toLocaleString();
     document.getElementById('stat-tmp-buildings').textContent = tmp.buildings.length;
 
     const generated = new Date(phx.generated_utc);
     document.getElementById('results-updated').textContent =
       'Last updated ' + generated.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
 
-    const map = L.map('results-map', {scrollWheelZoom:false}).setView([33.45, -111.98], 10.5);
+    const map = L.map('results-map', {scrollWheelZoom:false, preferCanvas:true}).setView([33.45, -111.98], 10.5);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       maxZoom: 19
     }).addTo(map);
 
-    const maxPriority = Math.max(...phx.tracts.map(t => t.priority));
-    phx.tracts.forEach(t => {
+    const maxPriority = Math.max(...tracts.map(t => t.priority));
+    tracts.forEach(t => {
       const r = 6 + 12 * (t.priority / maxPriority);
       L.circleMarker([t.lat, t.lon], {
         radius: r, color: '#c4451f', weight: 1, fillColor: '#c4451f', fillOpacity: 0.55
@@ -718,6 +656,17 @@ ranked.head(20).to_csv(<span class="c-str">"phoenix_retrofit_priority_tracts.csv
       );
     });
 
+    flagged.forEach(b => {
+      L.circleMarker([b.lat, b.lon], {
+        radius: 4, color: '#e8c547', weight: 1.3, dashArray: '2,2', fillOpacity: 0
+      }).addTo(map).bindPopup(
+        '<span class="pop-title">Flagged building</span>' +
+        'Built: ' + b.year_built + '<br>' +
+        'Albedo: ' + b.albedo + '<br>' +
+        '<em>No HVI score — outside the 2016 survey</em>'
+      );
+    });
+
     tmp.buildings.forEach(b => {
       L.circleMarker([b.lat, b.lon], {
         radius: 5, color: '#bfe1e8', weight: 1, fillColor: '#bfe1e8', fillOpacity: 0.7
@@ -726,7 +675,7 @@ ranked.head(20).to_csv(<span class="c-str">"phoenix_retrofit_priority_tracts.csv
       );
     });
 
-    statusEl.textContent = 'Showing ' + phx.tracts.length + ' Phoenix tracts and ' + tmp.buildings.length + ' Tempe rooftops from the ' + phx.dark_albedo_threshold + ' dark-roof threshold.';
+    statusEl.textContent = 'Showing ' + tracts.length + ' Phoenix tracts, ' + flagged.length.toLocaleString() + ' flagged post-2016 buildings, and ' + tmp.buildings.length + ' Tempe rooftops from the ' + phx.dark_albedo_threshold + ' dark-roof threshold.';
   } catch (err) {
     statusEl.textContent = 'Could not load phoenix.json / tempe.json (' + err.message + '). They should sit alongside this page in the repo.';
   }

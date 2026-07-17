@@ -1,6 +1,6 @@
 {
   "city": "Tempe",
-  "generated_utc": "2026-07-17T19:42:42+00:00",
+  "generated_utc": "2026-07-17T20:49:54+00:00",
   "dark_albedo_threshold": 0.15,
   "unit": "individual rooftop centroid, ranked by lowest albedo (no HVI layer available for Tempe)",
   "n_dark_roofs_total": 3769,
