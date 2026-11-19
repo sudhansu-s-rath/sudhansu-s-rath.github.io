@@ -1,39 +1,44 @@
-# Sudhansu Sekhar Rath - Personal Website
+# Sudhansu Sekhar Rath — Personal Website
 
-A modern, responsive personal website showcasing my academic and professional profile.
+Personal academic website, hosted on GitHub Pages: [sudhansu-s-rath.github.io](https://sudhansu-s-rath.github.io)
 
-## 🌐 Live Site
-Visit the live website at: [sudhansu-s-rath.github.io](https://sudhansu-s-rath.github.io)
+## Pages
+- **Home** (`index.html`): introduction, education, experience, skills
+- **Research** (`research.html`): research projects
+- **Teaching** (`teaching.html`): teaching and mentorship
+- **Publications** (`publications.html`): publications, presentations, CV download
+- **Contact** (`contact.html`): affiliations and profiles
+- **Data note** (`heat-resilience-phoenix.html`): rooftop albedo and heat resilience, Phoenix–Tempe
 
-## 📋 Pages
-- **Home**: Introduction and overview
-- **Research**: Academic research and projects
-- **Publications**: Research publications and interesting work
-- **Teaching**: Teaching experience and workshops
-- **Contact**: Contact information and professional links
+## Technology
+- Plain HTML + one stylesheet (`css/modern.css`); no framework
+- Icons: Font Awesome 6 (CDN) with the v4 compatibility layer, so `fa fa-...` class names work
+- Hosting: GitHub Pages (static files; folders starting with `_` are not published)
 
-## 🛠️ Technologies Used
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Framework**: Bootstrap 3.3.7
-- **Icons**: Font Awesome 4.0.3
-- **Hosting**: GitHub Pages
-- **Version Control**: Git
+## Maintaining the site
+**Shared header, navigation, and footer** live in `_partials/` (`head.html`, `nav.html`, `footer.html`).
+Edit them once, then copy them into every page:
+```bash
+python3 _tools/sync_layout.py
+```
+Each page keeps its own `<title>` and description, which also feed the link-preview (Open Graph) tags.
 
-## 🚀 Local Development
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/sudhansu-s-rath/sudhansu-s-rath.github.io.git
-   cd sudhansu-s-rath.github.io
-   ```
+**Publications, talks, and the CV PDF** are generated from the CV project (`../CV`, see its README):
+```bash
+cd ../CV
+./build.sh --public && cp out/CV_public.pdf ../PersonalPage/files/CV_Sudhansu_Rath.pdf
+python tools/web_publications.py ../PersonalPage/publications.html   # in geo_env
+```
+Only the regions between `<!-- BEGIN AUTO:... -->` / `<!-- BEGIN SHARED:... -->` markers are rewritten;
+everything else is edited by hand.
 
-2. Open `index.html` in your browser to view the site locally.
+**Preview locally:** open `index.html` in a browser, or run `python3 -m http.server` here and visit
+http://localhost:8000.
 
-## 📞 Contact
+## Contact
 - **Email**: sudhansu@asu.edu
-- **LinkedIn**: https://www.linkedin.com/in/sudhansu-s-rath-ph-d-6839b4203/
-- **GitHub**: https://github.com/sudhansu-s-rath
 - **Google Scholar**: https://scholar.google.com/citations?user=o4jIZJAAAAAJ&hl=en
-- **ResearchGate**: https://www.researchgate.net/profile/Sudhansu-Rath-2
+- **ORCID**: https://orcid.org/0000-0003-4529-3719
 
 ## License
-This project is open source and available under the [MIT License](LICENSE).
+MIT License (see [LICENSE](LICENSE)).

@@ -114,6 +114,11 @@ a:hover { color: var(--accent); }
     transition: all 0.2s ease;
 }
 
+a.nav-btn {
+    display: inline-block;
+    text-decoration: none;
+}
+
 .nav-btn:hover, .nav-btn.active {
     background: var(--bg-surface);
     color: var(--primary);
